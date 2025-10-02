@@ -11,7 +11,7 @@ The `Join Videos` node is for videos to video compilation. A node can take in up
 <img src="readMeAssets/joinVideos2.gif" />
 </div>
 
-You can watch a video about this node [here](https://youtu.be/WiLun8E9T-E) 
+
 
 ## Replace Img_or_Vid_Bg
 
@@ -68,7 +68,7 @@ The `Video for LivePortrait` node takes in a video of any size which contains a 
 <img src="readMeAssets/livePortrait.gif" /> <br></br>
 </div>
 
-You can watch a video about this node [here](https://youtu.be/uEicKGu89mY)
+
 
 
 ## Installation
