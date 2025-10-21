@@ -913,6 +913,62 @@ def import_mediapipe():
     return None
 
 
+class ComputePadding:
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "width": ("INT", {"default": 512, "min": 32, "max": 0xffffffffffffffff}),
+                "height": ("INT", {"default": 512, "min": 32, "max": 0xffffffffffffffff}),
+                "targetWidth": ("INT", {"default": 768, "min": 32, "max": 0xffffffffffffffff}),
+                "targetHeight": ("INT", {"default": 768, "min": 32, "max": 0xffffffffffffffff}),
+                "leftPadding": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
+                "topPadding": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
+                "centralizeHorizontal": ("BOOLEAN", {"default": True}),
+                "centralizeVertical": ("BOOLEAN", {"default": False}),
+            },
+        }
+
+    RETURN_TYPES = ("INT", "INT", "INT", "INT")
+    RETURN_NAMES = ("left", "right", "top", "bottom")
+    FUNCTION = "compute"
+    CATEGORY = "Isi-dev Animation nodes"
+
+    def compute(
+        self,
+        width,
+        height,
+        targetWidth,
+        targetHeight,
+        leftPadding,
+        topPadding,
+        centralizeHorizontal,
+        centralizeVertical
+    ):
+
+        left = right = top = bottom = 0
+
+        if centralizeHorizontal:
+            pad = int((targetWidth - width) / 2)
+            left = right = max(pad, 0)
+        else:
+            left = max(leftPadding, 0)
+            right = max(targetWidth - (width + leftPadding), 0)
+
+        if centralizeVertical:
+            pad = int((targetHeight - height) / 2)
+            top = bottom = max(pad, 0)
+        else:
+            top = max(topPadding, 0)
+            bottom = max(targetHeight - (height + topPadding), 0)
+
+        left = max(left, 0)
+        right = max(right, 0)
+        top = max(top, 0)
+        bottom = max(bottom, 0)
+
+        return (left, right, top, bottom)
+
 
 
 NODE_CLASS_MAPPINGS = {
@@ -924,6 +980,7 @@ NODE_CLASS_MAPPINGS = {
     "MoveUpOrDown" : MoveUpOrDown,
     "MakeDrivingVideoForLivePortrait" : MakeDrivingVideoForLivePortrait,
     "CLIPTextEncodeStyles" : CLIPTextEncodeStyles,
+    "ComputePadding" : ComputePadding,
     
 }
 
@@ -937,5 +994,6 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "MoveUpOrDown" : "Move Up_Or_Down",
     "MakeDrivingVideoForLivePortrait" : "Video for LivePortrait",
     "CLIPTextEncodeStyles" : "Prompt Style Encoder",
+    "ComputePadding" :"Compute Padding",
     
 }
