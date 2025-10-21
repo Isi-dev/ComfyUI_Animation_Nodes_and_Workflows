@@ -953,14 +953,22 @@ class ComputePadding:
             left = right = max(pad, 0)
         else:
             left = max(leftPadding, 0)
-            right = max(targetWidth - (width + leftPadding), 0)
+            right = targetWidth - (width + left)
+            if right < 0:
+                overflow = abs(right)
+                left = max(left - overflow, 0)
+                right = 0
 
         if centralizeVertical:
             pad = int((targetHeight - height) / 2)
             top = bottom = max(pad, 0)
         else:
             top = max(topPadding, 0)
-            bottom = max(targetHeight - (height + topPadding), 0)
+            bottom = targetHeight - (height + top)
+            if bottom < 0:
+                overflow = abs(bottom)
+                top = max(top - overflow, 0)
+                bottom = 0
 
         left = max(left, 0)
         right = max(right, 0)
